@@ -1,7 +1,7 @@
 @php
 $visites = App\Models\Visite::orderByDesc('date')->where('id_patient', $id_patient)->get('id');
 $consultations = App\Models\Consultation::whereIn('id_visite', $visites)->get('id');
-$plans = App\Models\Plan::whereIn('id_cons', $consultations)->get('id');
+$plans = App\Models\Plan::whereIn('id_cons', $consultations)->where('termine', 0)->get('id');
 $plans_conf = App\Models\Plan::whereIn('id', $plans)->where('confirme', 1)->where('termine', 0)->get();
 $autres_plans = App\Models\Plan::whereIn('id', $plans)->where('confirme', 0)->get();
 @endphp
@@ -49,7 +49,7 @@ $autres_plans = App\Models\Plan::whereIn('id', $plans)->where('confirme', 0)->ge
             <td class="p-1 align-top" wire:click="confirmerPlan({{ $autre_plan->id }})">{{ $autre_plan->traitement->designation }}</td>
             <td class="p-1 align-top" wire:click="confirmerPlan({{ $autre_plan->id }})">{{ $autre_plan->dents }}</td>
             <td class="p-1 align-top" wire:click="confirmerPlan({{ $autre_plan->id }})">{{ $autre_plan->desc }}</td>
-            <td class="p-1 align-top"><i class="fas fa-times hover:text-red-500" wire:click="supprimerPlan({{ $autre_plan->id }})"></i></td>
+            <td class="p-1 align-top"><p class="font-semibold hover:text-red-500" wire:click="supprimerPlan({{ $autre_plan->id }})"></p></td>
         </tr>
         @endforeach
         @endif

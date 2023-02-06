@@ -61,7 +61,7 @@ class Patients extends Component
         $this->m_patient = Patient::find($patientId);
 
         $this->m_nom = $this->m_patient->nom;
-        $this->m_sexe = $this->m_patient->sexe;
+        $this->m_sexe = ($this->m_patient->sexe == '') ? 'M' : $this->m_patient->sexe;
         $this->m_date_nais = $this->m_patient->date_nais;
         $this->m_lieu_nais = $this->m_patient->lieu_nais;
         $this->m_adresse = $this->m_patient->adresse;
@@ -91,7 +91,7 @@ class Patients extends Component
         $patient = Patient::create([
             'nom' => $this->n_nom,
             'sexe' => $this->n_sexe,
-            'date_nais' => $this->n_date_nais,
+            'date_nais' => ($this->n_date_nais != '') ? $this->n_date_nais : now(),
             'lieu_nais' => ($this->n_lieu_nais != '') ? $this->n_lieu_nais : null,
             'adresse' => ($this->n_adresse != '') ? $this->n_adresse : null,
             'tel' => ($this->n_tel != '') ? $this->n_tel : null,
@@ -132,54 +132,83 @@ class Patients extends Component
 
     public function modifierPatient()
     {
-        $patient = Patient::find($this->m_patient->id);
+        if ($this->m_patient != '') {
+            $patient = Patient::find($this->m_patient->id);
 
-        if ($patient->nom != $this->m_nom |
-            $patient->sexe != $this->m_sexe |
-            $patient->date_nais != $this->m_date_nais |
-            $patient->lieu_nais != $this->m_lieu_nais |
-            $patient->adresse != $this->m_adresse |
-            $patient->tel != $this->m_tel |
-            $patient->email != $this->m_email |
-            $patient->profession != $this->m_profession |
-            $patient->referant != $this->m_referant |
-            $patient->tel_referant != $this->m_tel_referant) {
-            $patient->update([
-                'nom' => $this->m_nom,
-                'sexe' => $this->m_sexe,
-                'date_nais' => $this->m_date_nais,
-                'lieu_nais' => ($this->m_lieu_nais != '') ? $this->m_lieu_nais : null,
-                'adresse' => ($this->m_adresse != '') ? $this->m_adresse : null,
-                'tel' => ($this->m_tel != '') ? $this->m_tel : null,
-                'email' => ($this->m_email != '') ? $this->m_email : null,
-                'profession' => ($this->m_profession != '') ? $this->m_profession : null,
-                'referant' => ($this->m_referant != '') ? $this->m_referant : null,
-                'tel_referant' => ($this->m_tel_referant != '') ? $this->m_tel_referant : null,
-            ]);
+            if (!is_null($patient)) {
+                if ($patient->nom != $this->m_nom |
+                    $patient->sexe != $this->m_sexe |
+                    $patient->date_nais != $this->m_date_nais |
+                    $patient->lieu_nais != $this->m_lieu_nais |
+                    $patient->adresse != $this->m_adresse |
+                    $patient->tel != $this->m_tel |
+                    $patient->email != $this->m_email |
+                    $patient->profession != $this->m_profession |
+                    $patient->referant != $this->m_referant |
+                    $patient->tel_referant != $this->m_tel_referant) {
+                    $patient->update([
+                        'nom' => $this->m_nom,
+                        'sexe' => $this->m_sexe,
+                        'date_nais' => ($this->m_date_nais != '') ? $this->m_date_nais : now(),
+                        'lieu_nais' => ($this->m_lieu_nais != '') ? $this->m_lieu_nais : null,
+                        'adresse' => ($this->m_adresse != '') ? $this->m_adresse : null,
+                        'tel' => ($this->m_tel != '') ? $this->m_tel : null,
+                        'email' => ($this->m_email != '') ? $this->m_email : null,
+                        'profession' => ($this->m_profession != '') ? $this->m_profession : null,
+                        'referant' => ($this->m_referant != '') ? $this->m_referant : null,
+                        'tel_referant' => ($this->m_tel_referant != '') ? $this->m_tel_referant : null,
+                    ]);
 
-            session()->flash('patient_modifie', 'Modifié');
+                    session()->flash('patient_modifie', 'Modifié');
+                }
+
+                if (Contrat::where([
+                    'id_patient' => $this->m_patient->id,
+                    'assurance' => $this->m_assurance,
+                    'matricule' => $this->m_matricule,
+                    'employeur' => $this->m_employeur,
+                    'taux_couvert' => $this->m_taux_couvert,
+                ])->count() == 0) {
+                    Contrat::create([
+                        'id_patient' => $this->m_patient->id,
+                        'assurance' => ($this->m_assurance != '') ? $this->m_assurance : null,
+                        'matricule' => ($this->m_assurance != '') ? (($this->m_matricule != '') ? $this->m_matricule : null) : null,
+                        'employeur' => ($this->m_assurance != '') ? (($this->m_employeur != '') ? $this->m_employeur : null) : null,
+                        'taux_couvert' => ($this->m_taux_couvert == '' || !is_numeric($this->m_taux_couvert)) ? 0 : $this->m_taux_couvert,
+                        'valeur_D' => ($this->m_valeur_D == '' || !is_numeric($this->m_valeur_D)) ? 1000 : $this->m_valeur_D,
+                        'valeur_SC' => ($this->m_valeur_D == '' || !is_numeric($this->m_valeur_D)) ? 1200 : round($this->m_valeur_D * 1.2),
+                    ]);
+
+                    session()->flash('patient_modifie', 'Modifié');
+                }
+            }
         }
+    }
 
-        if (Contrat::where([
-            'id_patient' => $this->m_patient->id,
-            'assurance' => $this->m_assurance,
-            'matricule' => $this->m_matricule,
-            'employeur' => $this->m_employeur,
-            'taux_couvert' => $this->m_taux_couvert,
-        ])->count() == 0) {
-            Contrat::create([
-                'id_patient' => $this->m_patient->id,
-                'assurance' => ($this->m_assurance != '') ? $this->m_assurance : null,
-                'matricule' => ($this->m_assurance != '') ? (($this->m_matricule != '') ? $this->m_matricule : null) : null,
-                'employeur' => ($this->m_assurance != '') ? (($this->m_employeur != '') ? $this->m_employeur : null) : null,
-                'taux_couvert' => ($this->m_taux_couvert == '' || !is_numeric($this->m_taux_couvert)) ? 0 : $this->m_taux_couvert,
-                'valeur_D' => ($this->m_valeur_D == '' || !is_numeric($this->m_valeur_D)) ? 1000 : $this->m_valeur_D,
-                'valeur_SC' => ($this->m_valeur_D == '' || !is_numeric($this->m_valeur_D)) ? 1200 : round($this->m_valeur_D * 1.2),
-            ]);
+    public function supprimerPatient() {
+        if ($this->m_patient != '') {
+            $this->m_patient->supprimer();
+            
+            $this->m_patient = '';
 
-            session()->flash('patient_modifie', 'Modifié');
-        }       
-    }    
+            $this->m_nom = '';
+            $this->m_sexe = '';
+            $this->m_date_nais = '';
+            $this->m_lieu_nais = '';
+            $this->m_adresse = '';
+            $this->m_tel = '';
+            $this->m_email = '';
+            $this->m_profession = '';
+            $this->m_referant = '';
+            $this->m_tel_referant = '';
+
+            $this->m_assurance = '';
+            $this->m_matricule = '';
+            $this->m_employeur = '';
+            $this->m_taux_couvert = '';
+            $this->m_valeur_D = '';
+        }
+    }
 
     public function render()
     {

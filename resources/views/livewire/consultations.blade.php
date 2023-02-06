@@ -5,11 +5,11 @@
             <div class="flex flex-col text-center">
                 <div class="mb-5">
                     <x-jet-input type="date" class="w-2/12" wire:model="date" wire:change="nouvelleDate" max="{{ date('Y-m-d') }}" required />
-                    <x-jet-input type="text" class="w-9/12 mx-5" wire:model="medocs_en_cours" placeholder="Médicaments en cours" />
+                    <x-jet-input type="text" class="w-9/12 ml-5" wire:model="medocs_en_cours" placeholder="Médicaments en cours" />
                 </div>
                 <div>
-                    <x-jet-input type="text" class="w-2/12" wire:model="frais" placeholder="Frais" required />
-                    <x-jet-input type="text" class="w-9/12 mx-5" wire:model="observations" placeholder="Observations" />
+                    <x-jet-input type="text" class="w-2/12" wire:model="frais" placeholder="Frais" required hidden />
+                    <x-jet-input type="text" class="w-full" wire:model="observations" placeholder="Observations" />
                 </div>
             </div>
         </div>

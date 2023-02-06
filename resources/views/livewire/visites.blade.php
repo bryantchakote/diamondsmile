@@ -38,8 +38,9 @@
                             <td class="px-1">{{ $consultation->observations }}</td>
                             @endif
                         </tr>
-                        
                     </table>
+
+                    <p class="text-lg font-black hover:text-red-700 text-red-400" title="Supprimer" wire:click="supprimerCons({{ $visite->consultation->id }})">x</p>
                 </div>
 
                 @if ($showDiv[$visite->id])
@@ -379,7 +380,7 @@
     @if ((count($visite->operations) > 0) || (!is_null($prescs) && count($prescs) > 0))
     <div class="px-8 py-2 bg-white rounded-md my-12">
         <div class="my-4">            
-            <div class="mb-4 text-sm cursor-pointer" wire:click="openDiv({{ $visite->id }})">
+            <div class="flex mb-4 text-sm cursor-pointer" wire:click="openDiv({{ $visite->id }})">
                 <table class="w-1/4 flex flex-col items-top">
                     <tr>
                         <td class="font-semibold px-1 text-right">Date</td>
@@ -390,6 +391,7 @@
                         <td class="px-1">Traitement</td>
                     </tr>
                 </table>
+                <p class="text-lg text-right w-full font-black hover:text-red-700 text-red-400" title="Supprimer" wire:click="supprimerTrait({{ $visite->id }})">x</p>
             </div>
 
             @if ($showDiv[$visite->id])

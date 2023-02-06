@@ -36,8 +36,8 @@
                         <td class="px-3 py-1">{{ $presc->produit }}</td>
                         <td class="px-3 py-1">{{ $presc->mode_emploi }}</td>
                         <td class="px-3 py-1 text-center">
-                            <button wire:click="modeModifPresc({{ $presc->id }})"><i class="fas fa-pen hover:text-green-500"></i></button> &nbsp;
-                            <button wire:click="supprimerPresc({{ $presc->id }})"><i class="fas fa-times hover:text-red-500"></i></button>
+                            <button wire:click="modeModifPresc({{ $presc->id }})" class="font-semibold hover:text-green-500" title="Modifier">M</button> &nbsp;
+                            <button wire:click="supprimerPresc({{ $presc->id }})" class="font-semibold hover:text-red-500" title="Supprimer">S</button>
                         </td>
                     </tr>
                     @endforeach

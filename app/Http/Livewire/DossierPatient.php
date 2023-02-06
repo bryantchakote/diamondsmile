@@ -92,6 +92,10 @@ class DossierPatient extends Component
         }   
     }
 
+    public function supprimerCons($consId) {
+        Consultation::find($consId)->supprimer();
+    }
+
     public function render()
     {
         return view('livewire.dossier-patient', [

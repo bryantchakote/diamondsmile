@@ -1,2 +1,19 @@
 # diamondsmile
-A web application designed for a dentist. Manages consultations, treatments, medical prescrptions, and bills.
+A web application designed for a dentist. Manages consultations, treatments, medical prescriptions, and bills.
+
+*This app was built thanks to the **Laravel Jetsream** web application framework. For me it's one of the most important projects I've worked on until now. It took me **A LOT OF TIME** (Jul-Sep 2021, Feb 2022, Jun-Sep 2022, anyway all my possible vacations) to set up everything and design each part of this application, was it the front-end or the back-end stuff. It was also a great challenge since it was somehow my first "freelance" adventure; far from being an academic project like what I had known until then, I actually had a real client, I had to meet its expectations, fix all the bugs, ensure a smooth user experience while using the app, and beg for payment (LOL).*
+
+If you're interested in trying it, here are the steps to follow (hope I won't forget anything):
+- Install Composer. Download it following [this link](https://getcomposer.org/download/) and run the `Composer-Setup.exe` downloaded file
+- [Insatll XAMPP](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/8.2.0/xampp-windows-x64-8.2.0-0-VS16-installer.exe), open it and start its **Apache** and **MySQL** services
+- Create a database named `diamondsmile` (the following link may help: http://localhost/phpmyadmin/index.php?route=/server/databases)
+- Clone the repository in your machine, move inside it, and open a terminal in your project's location
+- Run `composer update` to let the Composer engine fix some depreciations issues and other stuff...
+- Copy paste the `public/db_seed.sh` content to your terminal and run the full command. It looks like `php artisan migrate && php artisan db:seed --class=DatabaseSeeder && php artisan db:seed --class=PatientSeeder && ...`, and just helps filling in the database with (a lot of) fancy data to have a great starting point. *If you want a clear project without any data, uncomment the second line, and comment the first one of the previous script, to seed only a few database tables (the ones with a very specific static content)*
+- Once done, the last step is to run `php artisan serve` to start a Laravel Development Server (simply put your app), get to the following URL: http://127.0.0.1:8000, and start diving into this magnificent world!
+
+For a first use, you may need to register providing a name, an email address, and a password. Validating this step will give you access to the Home page, a `Dashboard` depicting some basic stats. You could next move to the `Rendez-vous` menu where you're able to plan the rendezvous to come, take a look at the ones currently scheduled, and modify them. 
+
+The core part of this project is about the patients' files. The `Patient` menu drives you there. On the welcoming page, you can either create a new patient, modify a registered one, and quickly get some information about your patients. If you want to see more, just hit the `D` (Dossier) letter at the end of each line to move to the complete patient's file. Here you have detailed information about the concerned patient, you can asses and modify its general state, explore the previous consultations summary, and instanciate a new one providing all the details (observations, exams and drugs to take, ...). You can also save the exams and their results or manage financial stuff.
+
+Basically, that's what this app can achieve, and it may be difficult to handle at a first side, but when you get used to it, it's just like any other app. I'm looking forward to give more explanations in a video tutorial (I like going on new adventures definitely!). Anyway the client was very satisfied of this project and so was I. In case someone stumbles upon this project and has any problem executing it, I'll be happy to help him/her to see more clearly although I'm not the most gifted in this matter. Good luck!

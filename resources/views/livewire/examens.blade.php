@@ -80,7 +80,12 @@
                         </div>
                         @endfor
                     </div>
+                    @if ($i == 2)
+                    <div class="border-t"></div>
+                    <h3 class="my-4 text-lg font-semibold">Dents de lait</h3>
+                    @endif
                     @endfor
+
                     <div class="mt-8 text-right">
                         @if (session()->has('ex_denture'))
                         <span x-data="{ shown: false, timeout: null }"

@@ -18,6 +18,8 @@ class Factures extends Component
     public $id_cons = '';
     public $total = 0;
     public $remise = 0;
+    public $proforma = 1;
+    public $plans = '';
 
     public function mount($factureId)
     {
@@ -39,11 +41,13 @@ class Factures extends Component
                 Facture::find($facture->id)->delete();
             }
         }
+
+        $this->plans = ($this->id_cons != '') ? Plan::where('id_cons', $this->id_cons)->get() : '';
     }
 
     public function ajouterFacture()
     {
-        $this->total += ($this->id_cons != '') ? Consultation::find($this->id_cons)->frais : 0;
+        // $this->total += ($this->id_cons != '') ? Consultation::find($this->id_cons)->frais : 0;
 
         $plans = ($this->id_cons != '') ? (Plan::where('id_cons', $this->id_cons)->where('confirme', 1)->get() ?? '') : '';
 
@@ -66,6 +70,17 @@ class Factures extends Component
         } else {
             redirect('patient/' . Visite::find($this->id_visite)->patient->id);
         }
+    }
+
+    public function offProforma()
+    {
+        if ($this->proforma == 1) {
+            $this->proforma = 0;
+            $this->plans = ($this->id_cons != '') ? Plan::where('id_cons', $this->id_cons)->where('confirme', 1)->get() : '';
+        } else {
+            $this->proforma = 1;
+            $this->plans = ($this->id_cons != '') ? Plan::where('id_cons', $this->id_cons)->get() : '';   
+        }
             
     }
 
@@ -74,7 +89,6 @@ class Factures extends Component
         return view('livewire.factures', [
             'date' => date('d F Y', strtotime(Visite::find($this->id_visite)->date)),
             'frais_cons' => ($this->id_cons != '') ? Consultation::find($this->id_cons)->frais : '',
-            'plans' => ($this->id_cons != '') ? Plan::where('id_cons', $this->id_cons)->where('confirme', 1)->get() : '',
             'patient' => Visite::find($this->id_visite)->patient,
         ]);
     }

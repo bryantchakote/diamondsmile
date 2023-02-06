@@ -53,6 +53,7 @@
                         <div class="flex items-center md:justify-end sm:justify-center sm:mt-12 md:mt-6">
                             <x-jet-button class="sm:mx-auto">{{ $mode == 'ajout' ? 'Enregistrer' : 'Modifier' }}</x-jet-button>
                             @if ($mode == 'modif')
+                            <x-jet-button class="sm:mx-auto hover:bg-red-500 bg-red-900" wire:click="supprimerPatient">Supprimer</x-jet-button>
                             <x-jet-button class="sm:mx-auto" wire:click="modeAjout">Annuler</x-jet-button>
                             @endif
                             @if (session()->has('patient_cree'))
@@ -99,7 +100,7 @@
                     @foreach($patients as $patient)
                     <tr class="hover:bg-gray-200">
                         @if (substr($patient->date_nais, 5, 5) == substr(now(), 5, 5))
-                        <th class="md:px-3 sm:px-1"><i class="fas fa-birthday-cake text-green-500"></i></th>
+                        <th class="md:px-3 sm:px-1 text-green-500">A</th>
                         @else
                         <th class="md:px-3 sm:px-1">{{ $i }}</th>
                         @endif
@@ -112,16 +113,16 @@
                         <td class="md:px-3 sm:px-1 py-1 text-right">{{ $patient->tel }}</td>
                         <td class="md:px-3 sm:px-1 py-1 text-center">
                             @if ($patient->assure())
-                            <i class="fas fa-check text-green-500"></i>
+                            <p title="Assuré">O</p>
                             @else
-                            <i class="fas fa-times text-red-500"></i>
+                            <p title="Non assuré">N</p>
                             @endif
                         </td>
                         <td class="px-3 py-1 sm:hidden md:table-cell text-right">{{ $patient->depense() }}</td>
                         <td class="px-3 py-1 sm:hidden md:table-cell text-right">{{ $patient->dette() }}</td>
                         <td class="md:px-3 sm:pl-3 sm:pr-1 py-1 text-center">
-                            <button wire:click="modeModif({{ $patient->id }})"><i class="fas fa-pen hover:text-green-500"></i></button> &nbsp;
-                            <button><a href="patient/{{ $patient->id }}"><i class="fa fa-plus hover:text-green-500"></i></a></button>
+                            <button class="hover:text-green-500 font-semibold" wire:click="modeModif({{ $patient->id }})" title="Modifier">M</button> &nbsp;
+                            <button class="hover:text-green-500 font-semibold" title="Voir dossier"><a href="patient/{{ $patient->id }}">D</a></button>
                         </td>
                     </tr>
                     @endforeach

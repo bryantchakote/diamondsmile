@@ -291,7 +291,8 @@ class Operations extends Component
             }
 
             $facture = $visite->factures;
-            if (count($factures) > 0) {
+            
+            if (!is_null($visite->factures) && $visite->factures->count() > 0) {
                 foreach ($factures as $facture) {
                     $facture = Facture::find($facture->id);
                     $reglements = $facture->reglements;

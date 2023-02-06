@@ -32,7 +32,7 @@
 
                         <div class="font-semibold text-xl mb-4">
                             @php $date = Carbon\Carbon::create($date) @endphp
-                            <p>{{ 'FACTURE DS-' . substr($date, 8, 2) . substr($date, 5, 2) . substr($date, 2, 2) . '-' . sprintf("%05d", $id_facture + 1)  }}</p>
+                            <p>{{ 'FACTURE' . ($proforma ? ' PROFORMA' : '') . ' DS-' . substr($date, 8, 2) . substr($date, 5, 2) . substr($date, 2, 2) . '-' . sprintf("%05d", $id_facture + 1)  }}</p>
                         </div>
 
                         <div class="text-left">
@@ -57,24 +57,6 @@
                             $total_assureur = 0;
                             $total_patient = 0;
                             @endphp
-
-                            @if ($frais_cons != '')
-                            @php
-                            $frais_cons_assureur = $frais_cons * ($patient->contrats->last()->taux_couvert / 100);
-                            $frais_cons_patient = $frais_cons - $frais_cons_assureur;
-                            $total += $frais_cons;
-                            $total_assureur += $frais_cons_assureur;
-                            $total_patient += $frais_cons_patient;
-                            @endphp
-                            <tr class="border-b">
-                                <td class="p-1"></td>
-                                <td class="p-1 text-left">Consultation</td>
-                                <td class="p-1 text-right"></td>
-                                <td class="p-1 text-right">{{ number_format($frais_cons, 0, '', ' ') }}</td>
-                                <td class="p-1 text-right">{{ number_format($frais_cons_assureur, 0, '', ' ') }}</td>
-                                <td class="p-1 text-right">{{ number_format($frais_cons_patient, 0, '', ' ') }}</td>
-                            </tr>
-                            @endif
 
                             @if ($plans != '')
                             @foreach ($plans as $plan)
@@ -140,7 +122,10 @@
                             <p>Patient doit : <span class="uppercase font-semibold">{{ $f->format($total_patient - $total_patient_remise) }} FCFA</span></p>
                         </div>
 
-                        <x-jet-button class="w-2 mx-auto" wire:click="ajouterFacture"></x-jet-button>
+                        <div class="flex-col">
+                            <x-jet-button class="w-2 mx-20" wire:click="offProforma"></x-jet-button>
+                            <x-jet-button class="w-10 mx-20 text-center opacity-25" wire:click="ajouterFacture">T</x-jet-button>
+                        </div>
                     </div>
                 </div>
             </div>

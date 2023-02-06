@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Visite;
 use App\Models\Patient;
 use App\Models\Examen;
+use App\Models\Consultation;
 
 class Visites extends Component
 {
@@ -76,6 +77,14 @@ class Visites extends Component
     public function openDiv($idVisite)
     {
         $this->showDiv[$idVisite] = ($this->showDiv[$idVisite] == 0) ? 1 : 0;
+    }
+
+    public function supprimerCons($idCons) {
+        Consultation::find($idCons)->supprimer(0);
+    }
+
+    public function supprimerTrait($idVisite) {
+        Visite::find($idVisite)->supprimer(0);
     }
 
     public function render()

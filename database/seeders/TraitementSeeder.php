@@ -40,12 +40,12 @@ class TraitementSeeder extends Seeder
             ['AMALGAME', 'D20', 'Plombage amalgame plus 3 faces'],
             ['AMALGAME', 'D05', 'Dycal Iner'],
             ['AMALGAME', 'D10', 'Screw-post'],
+            ['AMALGAME', 'D06', 'Hydroxyde de calcium'],
 
             ['COMPOSITE', 'SC12', 'Composite antérieure classe III / V'],
             ['COMPOSITE', 'SC12', 'Composite antérieure classe IV'],
-            ['COMPOSITE', 'SC20', 'Composite antérieure comb III / IV / V'],
+            ['COMPOSITE', 'SC20', 'Composite antérieure 2 faces'],
             ['COMPOSITE', 'SC20', 'Composite postérieure 1 surface'],
-            ['COMPOSITE', 'D05', 'Dycal liner'],
 
             ['ENDODONTIE', 'D10', 'Pulpectomie'],
             ['ENDODONTIE', 'D15', 'Pulpectomie incisivo-canin'],
@@ -72,6 +72,7 @@ class TraitementSeeder extends Seeder
             ['CHIRURGIE', 'D40', 'Germectomie dent de sagesse'],
             ['CHIRURGIE', 'D25', 'Germectomie autre dent'],
             ['CHIRURGIE', 'D20', 'Frénectomie'],
+            ['CHIRURGIE', 'D30', 'Décapuchonnage'],
 
             ['PROTHESE FIXEE', '50000', 'Couronne provisoire (seul)'],
             ['PROTHESE FIXEE', '180000', 'Couronne coule unitaire en métallique'],

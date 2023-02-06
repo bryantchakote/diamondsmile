@@ -7,7 +7,7 @@
                 <table class="mx-auto">
                     <tr>
                         <th rowspan="5" class="text-lg pr-4 border-r">Informations<br>personnelles</th>
-                        <td class="font-semibold text-right px-2">Date de naissance</td>
+                        <td class="font-semibold text-right px-2">Date nais.</td>
                         <td>{{ Carbon\Carbon::createFromDate($patient->date_nais)->locale('fr')->isoFormat('Do MMMM YYYY') . ' (' . $patient->age() . ' ans)' }}</td>
                     </tr>
                     <tr>
@@ -16,7 +16,7 @@
                     </tr>
                     <tr>
                         <td class="font-semibold text-right px-2">Sexe</td>
-                        <td>{{ $patient->sexe == 'M' ? 'Masculin' : 'Feminin' }}</td>
+                        <td>{{ $patient->sexe == 'M' ? 'Masculin' : 'Féminin' }}</td>
                     </tr>
                     <tr>
                         <td class="font-semibold text-right px-2">Téléphone</td>
@@ -45,17 +45,17 @@
                         <td>{{ ($patient->profession != '') ? $patient->profession : '-' }}</td>
                     </tr>
                     <tr class="border-b">
-                        <td class="pb-2 font-semibold text-right px-2">Taux de couverture</td>
+                        <td class="pb-2 font-semibold text-right px-2">couverture</td>
                         <td class="pb-2">{{ ($patient->contrats->last()->taux_couvert != 0) ? $patient->contrats->last()->taux_couvert . ' %' : '-' }}</td>
                     </tr>
 
                     <tr>
                         <th rowspan="5" class="text-lg pr-4 border-r">Relation cabinet</th>
-                        <td class="font-semibold text-right px-2">Nombre de visites</td>
+                        <td class="font-semibold text-right px-2">Visites</td>
                         <td>{{ $patient->visites->count() }}</td>
                     </tr>
                     <tr>
-                        <td class="font-semibold text-right px-2">Dernière visite</td>
+                        <td class="font-semibold text-right px-2">Dernière</td>
                         <td>{{ ($patient->visites->count() > 0) ? Carbon\Carbon::createFromDate($patient->visites->sortByDesc('date')->values()->all()[0]->date)->locale('fr')->isoFormat('Do MMMM YYYY') : 'RAS' }}</td>
                     </tr>
                     <tr>
@@ -84,7 +84,7 @@
                     </tr>
                     <tr>
                         <td class="w-1-8/12 pr-1 text-right font-semibold">Date de naissance</td>
-                        <td class="w-1-8/12 pl-1 text-left">{{ Carbon\Carbon::createFromDate($patient->date_nais)->locale('fr')->isoFormat('Do MMMM YYYY') . ' (' . $patient->age() . ' ans)' }}</td>
+                        <td class="w-1-8/12 pl-1 text-left">{{ Carbon\Carbon::createFromDate($patient->date_nais)->locale('fr')->isoFormat('Do MMM YYYY') . ' (' . $patient->age() . ' ans)' }}</td>
                         <td class="px-4">.</td>
                         <td class="w-1-8/12 pr-1 text-right font-semibold">Compagnie</td>
                         <td class="w-1-8/12 pl-1 text-left">{{ ($patient->contrats->last()->assurance != '') ? $patient->contrats->last()->assurance : '-' }}</td>
@@ -104,7 +104,7 @@
                     </tr>
                     <tr>
                         <td class="pr-1 text-right font-semibold">Sexe</td>
-                        <td class="pl-1 text-left">{{ $patient->sexe == 'M' ? 'Masculin' : 'Feminin' }}</td>
+                        <td class="pl-1 text-left">{{ $patient->sexe == 'M' ? 'Masculin' : 'Féminin' }}</td>
                         <td class="px-4">.</td>
                         <td class="pr-1 text-right font-semibold">Employeur</td>
                         <td class="pl-1 text-left">{{ ($patient->contrats->last()->employeur != '') ? $patient->contrats->last()->employeur : '-' }}</td>

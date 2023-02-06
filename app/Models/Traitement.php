@@ -42,7 +42,7 @@ class Traitement extends Model
                 $prix = intval($this->code);
             }
 
-            if ($this->type != "RADIO" && $patient->age() < 48) {
+            if ($this->type != "RADIO" && $patient->age() < 5) {
                 return round($prix *= 1.4);
             }
         }

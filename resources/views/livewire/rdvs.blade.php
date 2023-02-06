@@ -210,8 +210,8 @@
                         <td class="md:px-3 sm:px-1 py-1 text-right">{{ Carbon\Carbon::createFromDate($rdv->date)->locale('fr')->isoFormat('Do MMM YYYY') }}</td>
                         <td class="md:px-3 sm:px-1 sm:hidden md:inline py-1">{{ $rdv->motif }}</td>
                         <td class="md:px-3 sm:px-1 sm:pl-3 sm:pr-1 py-1 text-center">
-                            <button wire:click="modeModif({{ $rdv->id }})"><i class="fas fa-pen hover:text-green-500"></i></button> &nbsp;
-                            <button wire:click="supprimerRdv({{ $rdv->id }})"><i class="fas fa-times hover:text-red-500"></i></button>
+                            <button wire:click="modeModif({{ $rdv->id }})" class="font-semibold hover:text-green-500" title="Modifier">M</button> &nbsp;
+                            <button wire:click="supprimerRdv({{ $rdv->id }})" class="font-semibold hover:text-red-500" title="Supprimer">S</button> &nbsp;
                         </td>
                     </tr>
                     @endforeach

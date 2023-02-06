@@ -4,7 +4,7 @@
             <div class="md:flex text-xs-sm md:text-sm">
                 <div class="md:w-5/12 md:mr-10 sm:mr-0 sm:w-full">
                     <table class="w-full">
-                        @for ($i = 0; $i < 6; $i++)
+                        @for ($i = 0; $i < 7; $i++)
                         @php $traitements_type = $traitements[$types[$i]->type] @endphp
                         <tr>
                             <th colspan="3" class="pt-3 text-base">{{ $traitements_type[0]->type . ' (' . $traitements_type->count() . ')' }}</th>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="md:w-7/12 sm:w-full">
                     <table class="w-full">
-                        @for ($i = 6; $i < 10; $i++)
+                        @for ($i = 7; $i < 10; $i++)
                         @php $traitements_type = $traitements[$types[$i]->type] @endphp
                         <tr>
                             <th colspan="3" class="pt-3 text-base">{{ $traitements_type[0]->type . ' (' . $traitements_type->count() . ')' }}</th>

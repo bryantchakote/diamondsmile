@@ -37,7 +37,7 @@
             <div class="my-10 md:w-6/12">
                 <h1 class="mb-8 text-2xl text-center font-semibold">Patients</h1>
 
-                <div class="flex justify-center font-semibold text-lg">
+                <div class="flex justify-center font-semibold">
                     <div class="ml-3 flex items-center">
                         <p><span class="pr-2">Patients</span>{{ number_format($nbre_patients, 0, ',', ' ') }}</p>
                     </div>

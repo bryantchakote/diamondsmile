@@ -155,14 +155,23 @@ class Consultations extends Component
         if (!((is_null($this->medocs_en_cours) || $this->medocs_en_cours == '') &&
             (is_null($this->observations) || $this->observations == '') &&
             $exams->count() == 0 && $prescs->count() == 0 && $plans->count() == 0)) {
+            
             $cons->update([
                 'medocs_en_cours' => $this->medocs_en_cours,
                 'observations' => $this->observations,
                 'frais' => $this->frais,
             ]);
 
-            $id_facture = (Facture::all()->count() > 0) ? (Facture::all()->last()->id + 1) : 1;
-            return redirect('facture/' . $id_facture);
+            if ($plans->count() > 0) {
+                $id_facture = (Facture::all()->count() > 0) ? (Facture::all()->last()->id + 1) : 1;
+                return redirect('facture/' . $id_facture);
+            } else {
+                if (Prescription::where('id_visite', $cons->visite->id)->count() > 0) {
+                    redirect('../../ordonnance/' . $cons->visite->id);
+                } else {
+                    redirect('patient/' . $this->id_patient);
+                }
+            }
         } else {
             $cons->visite->delete();
             $cons->delete();
@@ -172,58 +181,7 @@ class Consultations extends Component
     }
 
     public function annuler() {
-        $cons = Consultation::find($this->id_cons);
-
-        $exams = $cons->exams;
-        if (count($exams) > 0) {
-            foreach ($exams as $exam) {
-                Examen::find($exam->id)->delete();
-            }
-        }
-        
-        $prescs = $cons->visite->prescriptions;
-        if (count($prescs) > 0) {
-            foreach ($prescs as $presc) {
-                Prescription::find($presc->id)->delete();
-            }
-        }
-        
-        $plans = $cons->plans;
-        if (count($plans) > 0) {
-            foreach ($plans as $plan) {
-                $plan = Plan::find($plan->id);
-                $operations = $plan->operations;
-
-                if (count($operations) > 0) {
-                    foreach ($operations as $operation) {
-                        Operation::find($operation->id)->delete();
-                    }
-                }
-
-                $plan->delete();
-            }
-        }
-
-        $factures = Facture::where('id_visite', $cons->visite->id)->get();
-        if (count($factures) > 0) {
-            foreach ($factures as $facture) {
-                $facture = Facture::find($facture->id);
-                $reglements = $facture->reglements;
-
-                if (count($reglements) > 0) {
-                    foreach ($reglements as $reglement) {
-                        Reglement::find($reglement->id)->delete();
-                    }
-                }
-
-                $facture->delete();
-            }
-        }
-
-        $cons->visite->delete();
-        $cons->delete();
-
-        return redirect('patient/' . $this->id_patient);
+        Consultation::find($this->id_cons)->supprimer(0);
     }
 
     public function render()

@@ -57,8 +57,8 @@ class Rdvs extends Component
                 session()->flash('rdv_ajoute', 'Rendez-vous ajouté');
 
                 $this->n_nom_patient = '';
-                $this->date = date('Y-m-d');
-                $this->motif = 'consultation';
+                $this->n_date = date('Y-m-d');
+                $this->n_motif = 'consultation';
 
             } else {
                 session()->flash('rdv_existant', 'Ce rendez-vous a déjà été programmé');
@@ -86,7 +86,7 @@ class Rdvs extends Component
 
         $this->n_nom_patient = '';
         $this->n_date = '';
-        $this->n_motif = '';
+        $this->n_motif = 'consultation';
     }
 
     public function modifierRdv($rdvId)

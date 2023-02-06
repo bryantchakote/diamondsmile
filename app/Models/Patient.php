@@ -99,4 +99,43 @@ class Patient extends Model
 
         return(number_format($dette, 0, '', ' '));
     }
+
+    public function supprimer() {
+        $visites = Patient::find($this->id)->visites;
+
+        if (count($visites) > 0) {
+            foreach ($visites as $visite) {
+                if ($visite->motif == "consultation") {
+                    $visite->consultation->supprimer(1);
+                } elseif ($visite->motif == "traitement") {
+                    $visite->supprimer(1);
+                }
+            }
+        }
+
+        $rdvs = $this->rdvs;
+        if (count($rdvs) > 0) {
+            foreach ($rdvs as $rdv) {
+                Rdv::find($rdv->id)->delete();
+            }
+        }
+        
+        $etats = $this->etats;
+        if (count($etats) > 0) {
+            foreach ($etats as $etat) {
+                Etat::find($etat->id)->delete();
+            }
+        }
+        
+        $contrats = $this->contrats;
+        if (count($contrats) > 0) {
+            foreach ($contrats as $contrat) {
+                Contrat::find($contrat->id)->delete();
+            }
+        }
+
+        $this->delete();
+
+        return route('patients');
+    }
 }
